@@ -1,10 +1,10 @@
 
 from dataclasses import dataclass, field
-from src.pyFinance.transaction_type import TransactionType
-from src.pyFinance.category import Category
-from src.pyFinance.transaction import Transaction
-from src.pyFinance.budget import Budget
-from src.pyFinance.account import Account
+from .transaction_type import TransactionType
+from .category import Category
+from .transaction import Transaction
+from .budget import Budget
+from .account import Account
 
 
 
