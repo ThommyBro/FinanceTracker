@@ -1,9 +1,9 @@
 import re
 
 from dataclasses import dataclass, field
-from src.pyFinance.transaction_type import TransactionType
-from src.pyFinance.category import Category
-from src.pyFinance.transaction import Transaction
+from .transaction_type import TransactionType
+from .category import Category
+from .transaction import Transaction
 
 
 
@@ -76,7 +76,8 @@ class Account:
     def category_breakdown(self) -> dict[Category, float]:
         cat_summary = {}
         for ta in self.transactions:
-            cat_summary.setdefault(ta.category, 0.0 += ta.amount)
+            cat_summary.setdefault(ta.category, 0.0)
+            cat_summary[ta.category] += ta.signed_amount
 
         return cat_summary
 
