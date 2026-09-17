@@ -1,8 +1,8 @@
 import re
 
 from dataclasses import dataclass, field
-from src.pyFinance.transaction_type import TransactionType
-from src.pyFinance.category import Category
+from .transaction_type import TransactionType
+from .category import Category
 
 
 
@@ -25,7 +25,7 @@ class Transaction:
     transaction_type: TransactionType
     category: Category
     date: str
-    tags: None | set[str] = field(default_factory=set) 
+    tags: set[str] = field(default_factory=set) 
 
 
     def __post_init__(self):
@@ -57,18 +57,3 @@ class Transaction:
 
 
 
-def main():
-    ta = Transaction(
-            "An Expense",
-            120.5,
-            TransactionType.EXPENSE,
-            Category.FOOD,
-            "2026-08-17"
-        )
-    print(ta)
-
-
-
-
-if __name__ == "__main__":
-    main()
