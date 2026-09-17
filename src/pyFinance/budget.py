@@ -1,14 +1,18 @@
+import re
 
 from dataclasses import dataclass, field
-from pyFinance.category import Category
-from pyFinance.account import Account
+from .category import Category
+from .account import Account
 
+
+# Date Format: ISO Format YYYY-MM-DD
+DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 @dataclass
 class Budget:
     category: Category
     monthly_limit: float
-    month: str              # ISO Format YYYY-MM-DD
+    month: str              
 
     def remaining(self, account: Account) -> float: 
         ...
