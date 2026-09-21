@@ -56,9 +56,9 @@ def make_transaction(
 # 
 transactions = [
     make_transaction("Rent", 900, date="2026-09-01", category=Category.HOUSING),        # 1
-    make_transaction("Food", 120, date="2026-09-03"),                                   # 2
+    make_transaction("Food", 120, date="2026-09-01"),                                   # 2
     make_transaction("Food", 300, date="2026-09-10"),                                   # 3
-    make_transaction("Cinema", 35, date="2026-09-15", category=Category.ENTERTAINMENT), # 4
+    make_transaction("Cinema", 35, date="2026-09-10", category=Category.ENTERTAINMENT), # 4
     make_transaction("Shoes", 140, date="2026-09-20", category=Category.CLOTHING),      # 5
     make_transaction("Doctor", 80, date="2026-10-01", category=Category.HEALTH),        # 6
     make_transaction("New Bike", 1300,date="2026-10-05", category=Category.OTHER)       # 7
@@ -140,4 +140,10 @@ def test_top_n_expenses():
     assert [ta.amount for ta in result] == [1300, 900, 300] 
 
 
-
+def test_daily_spending():
+    acc = Account(name="My Account")
+    for ta in transactions:
+        acc.add_transaction(ta)
+    september = acc.daily_spending("2026-09")
+    assert september["2026-09-01"] == 1020.0
+    assert september["2026-09-10"] == 335.0
