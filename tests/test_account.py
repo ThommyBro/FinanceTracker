@@ -55,13 +55,13 @@ def make_transaction(
 # Use factory for lots of transactions
 # 
 transactions = [
-    make_transaction("Rent", 900, date="2026-09-01", category=Category.HOUSING),
-    make_transaction("Food", 120, date="2026-09-03"),
-    make_transaction("Food", 300, date="2026-09-10"),
-    make_transaction("Cinema", 35, date="2026-09-15", category=Category.ENTERTAINMENT),
-    make_transaction("Shoes", 140, date="2026-09-20", category=Category.CLOTHING),
-    make_transaction("Doctor", 80, date="2026-10-01", category=Category.HEALTH),
-    make_transaction("New Bike", 1300,date="2026-10.05", category=Category.OTHER)
+    make_transaction("Rent", 900, date="2026-09-01", category=Category.HOUSING),        # 1
+    make_transaction("Food", 120, date="2026-09-03"),                                   # 2
+    make_transaction("Food", 300, date="2026-09-10"),                                   # 3
+    make_transaction("Cinema", 35, date="2026-09-15", category=Category.ENTERTAINMENT), # 4
+    make_transaction("Shoes", 140, date="2026-09-20", category=Category.CLOTHING),      # 5
+    make_transaction("Doctor", 80, date="2026-10-01", category=Category.HEALTH),        # 6
+    make_transaction("New Bike", 1300,date="2026-10-05", category=Category.OTHER)       # 7
 ]
 
 salary = make_transaction(
@@ -130,6 +130,14 @@ def test_filter_by_month(income_transaction, expense_transaction):
     assert august == [expense_transaction]
     assert september == [income_transaction]
     
-  
+
+def test_top_n_expenses():
+    acc = Account(name="My Account")
+    for ta in transactions:
+        acc.add_transaction(ta)
+    result = acc.top_n_expenses(3)
+    assert len(result) == 3
+    assert [ta.amount for ta in result] == [1300, 900, 300] 
+
 
 
