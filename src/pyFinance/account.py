@@ -88,5 +88,9 @@ class Account:
         return cat_summary
 
         
-    def top_expenses(self, n=5) -> list[Transaction]:
-        ...
+    def top_n_expenses(self, n: int = 5) -> list[Transaction]:
+        expenses = [ta for ta in  self.transactions if ta.is_expense]
+        sorted_expenses = sorted(expenses, key=lambda ta: ta.amount, reverse=True)
+
+        return sorted_expenses[:n]
+
