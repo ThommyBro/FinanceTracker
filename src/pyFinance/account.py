@@ -10,10 +10,7 @@ from .transaction import Transaction
 
 @dataclass
 class Account:
-    """
-    ...
-    """
-    
+
     name: str
     transactions: list[Transaction] = field(default_factory=list) 
     
@@ -45,7 +42,16 @@ class Account:
 
 
     def filter_by_date(self, start: str, end: str) -> list[Transaction]:
+        """Returns transactions between a given start and end date"""
         return [ta for ta in self.transactions if ta.date <= end and ta.date >= start]
+
+
+    def filter_by_month(self, month: str) -> list[Transaction]:
+        """
+        Returns a list of transaction for a given month.
+        Input format: 'YYYY-MM'
+        """
+        return [ta for ta in self.transactions if ta.date[:7] == month]
 
 
     def filter_by_type(self, t: TransactionType) -> list[Transaction]:
@@ -82,11 +88,5 @@ class Account:
         return cat_summary
 
         
-
-    
-
-
-    
-    """
-    All methods must be tested!
-    """
+    def top_expenses(self, n=5) -> list[Transaction]:
+        ...
