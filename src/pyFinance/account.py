@@ -94,3 +94,14 @@ class Account:
 
         return sorted_expenses[:n]
 
+
+    def daily_spending(self, month: str) -> dict[str, float]:
+        monthly_expenses = [ta for ta in self.filter_by_month(month) if ta.is_expense]
+        daily_summary = {}
+        
+        for ta in monthly_expenses:
+            day = ta.date
+            daily_summary.setdefault(day, 0.0)
+            daily_summary[day] += ta.amount
+
+        return daily_summary
