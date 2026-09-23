@@ -55,7 +55,8 @@ class Account:
 
 
     def filter_by_type(self, t: TransactionType) -> list[Transaction]:
-        return [ta for ta in self.transactions if ta.category == t]
+        """ Type is either Income or Expense """
+        return [ta for ta in self.transactions if ta.transaction_type == t]
 
 
     def search(self, query: str) -> list[Transaction]:
@@ -98,7 +99,7 @@ class Account:
     def daily_spending(self, month: str) -> dict[str, float]:
         monthly_expenses = [ta for ta in self.filter_by_month(month) if ta.is_expense]
         daily_summary = {}
-        
+
         for ta in monthly_expenses:
             day = ta.date
             daily_summary.setdefault(day, 0.0)
