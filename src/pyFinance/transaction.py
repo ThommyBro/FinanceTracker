@@ -3,6 +3,7 @@ import re
 from dataclasses import dataclass, field
 from .transaction_type import TransactionType
 from .category import Category
+from .exceptions import (InvalidTransactionError, FinanceError)
 
 
 
@@ -53,6 +54,13 @@ class Transaction:
     @property
     def signed_amount(self) -> float:
         return -self.amount if self.is_expense else self.amount
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Transaction":
+        try:
+            return cls(**data)
+        except (TypeError, ValueError) as exc:
+            raise InvalidTransactionError(f"Invalid transaction object: {exc}") from exc
 
 
 
