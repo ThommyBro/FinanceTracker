@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from .transaction_type import TransactionType
 from .category import Category
 from .transaction import Transaction
+from .exceptions import (FinanceError, InvalidTransactionError, BudgetNotFoundError, NotFoundError)
 
 
 
@@ -106,3 +107,15 @@ class Account:
             daily_summary[day] += ta.amount
 
         return daily_summary
+
+
+    # ========================================
+    # Dictionary Import
+    # ========================================
+
+    @classmethod
+    def from_dict(cls,data: dict) -> "Account":
+        try:
+            return cls(data["name"], [Transaction.from_dict(t) for t in data["transactions"]])
+        except (KeyError, TypeError) as exc:
+            raise FinanceError("Invalid account JSON structure.") from exc
