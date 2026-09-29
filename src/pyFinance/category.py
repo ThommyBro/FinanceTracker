@@ -1,16 +1,16 @@
-from enum import Enum, auto
+from enum import StrEnum
 
-class Category(Enum):
-    HOUSING = auto()
-    FOOD = auto()
-    TRANSPORT = auto()
-    ENTERTAINMENT = auto()
-    HEALTH = auto()
-    EDUCATION = auto()
-    CLOTHING = auto()
-    SALARY = auto()
-    FREELANCE = auto()
-    INVESTMENT = auto()
-    OTHER = auto()
+class Category(StrEnum):
+    HOUSING = "HOUSING"
+    FOOD = "FOOD"
+    TRANSPORT = "TRANSPORT"
+    ENTERTAINMENT = "ENTERTAINMENT"
+    HEALTH = "HEALTH"
+    EDUCATION = "EDUCATION"
+    CLOTHING = "CLOTHING"
+    SALARY = "SALARY"
+    FREELANCE = "FREELANCE"
+    INVESTMENT = "INVESTMENT"
+    OTHER = "OTHER"
 
     
