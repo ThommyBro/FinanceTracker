@@ -1,5 +1,5 @@
-from enum import Enum, auto
+from enum import StrEnum
 
-class TransactionType(Enum):
-    INCOME = auto()
-    EXPENSE = auto()
+class TransactionType(StrEnum):
+    INCOME = "INCOME"
+    EXPENSE = "EXPENSE"
