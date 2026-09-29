@@ -1,4 +1,7 @@
 import re
+import json
+import csv
+from pathlib import Path
 
 from dataclasses import dataclass, field
 from .transaction_type import TransactionType
@@ -119,3 +122,41 @@ class Account:
             return cls(data["name"], [Transaction.from_dict(t) for t in data["transactions"]])
         except (KeyError, TypeError) as exc:
             raise FinanceError("Invalid account JSON structure.") from exc
+
+
+    # ========================================
+    # Dictionary Export
+    # ========================================
+
+    @property
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name, "transactions": [t.to_dict for t in self.transactions]
+        }
+
+
+    # ========================================
+    # JSON Export
+    # ========================================
+
+    def save_as_json(self, filename: str):
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(self.to_dict, f, indent=4)
+
+
+    # ========================================
+    # JSON Import
+    # ========================================
+    
+    @classmethod
+    def load_account(cls, file: str) -> "Account":
+        try:
+            with Path(file).open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            return cls.from_dict(data)
+
+        except (ValueError, TypeError) as exc:
+            raise FinanceError(f"Cannot load JSON: {exc}") from exc
+  
+
+
