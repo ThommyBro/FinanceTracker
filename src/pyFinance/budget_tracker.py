@@ -22,6 +22,15 @@ class Tracker:
         for budget in self.budgets:
             if category == budget.category and month == budget.month:
                 budget.monthly_limit = monthly_limit
+                return
+        self.budgets.append(Budget(category, monthly_limit, month))
+
+
+    def delete_budget(self, category: Category, month: str) -> None:
+        exists = [b for b in self.budgets if (b.category, b.month) == (category, month)]
+        if not exists:
+            raise ValueError("Budget not found")
+        self.budgets.remove(exists[0])
 
 
     def check_budgets(self, account: Account) -> list[tuple[Budget, float]]:
