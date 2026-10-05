@@ -31,16 +31,25 @@ class Transaction:
 
 
     def __post_init__(self):
-        if not self.description.strip():
-            raise ValueError("Description must not be empty")
-        if self.amount <= 0:
-            raise ValueError(f"Amount must be positive. You typed '{self.amount}'.")
-        if not DATE_PATTERN.match(self.date):
-            raise ValueError(f"Date must be in format 'YYYY-MM-DD', but got '{self.date}'.")
+        """See static Method _validate(self)"""
+        self._validate(self.description, self.amount, self.date)
 
 
     def __str__(self):
         return f"{self.date} '{self.description}': {self.signed_amount} [{self.category.name}]"
+
+
+    @staticmethod
+    def _validate(description: str, amount: float, date: str) -> None:
+        """
+        Use this, so updates for transactions can also be checked with this method.
+        """
+        if not description.strip():
+            raise ValueError("Description must not be empty")
+        if amount <= 0:
+            raise ValueError(f"Amount must be positive. You typed '{amount}'.")
+        if not DATE_PATTERN.match(date):
+            raise ValueError(f"Date must be in format 'YYYY-MM-DD', but got '{date}'.")
     
 
 
@@ -55,6 +64,22 @@ class Transaction:
     @property
     def signed_amount(self) -> float:
         return -self.amount if self.is_expense else self.amount
+
+    
+    def update(self, description: str, amount: float, transaction_type: TransactionType, category: Category, date: str, tags: set[str]) -> None:
+        # validate values before storage
+        self._validate(description, amount, date)
+
+        # after validation set new values
+        self.description = description
+        self.amount = amount
+        self.transaction_type = transaction_type
+        self.category = category
+        self.date = date
+        self.tags = set(tags)
+
+
+
 
 
 
