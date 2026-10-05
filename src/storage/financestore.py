@@ -4,6 +4,7 @@ from src.pyFinance.account import Account
 from src.pyFinance.budget_tracker import Tracker
 from src.pyFinance.budget import Budget
 from src.pyFinance.transaction import Transaction
+from src.pyFinance.transaction_type import TransactionType
 from src.pyFinance.category import Category
 
 
@@ -34,7 +35,7 @@ class FinanceStore(ABC):
 
 
     @abstractmethod
-    def update_transaction(self, account_name: str, transaction_id: int) -> None: ...
+    def update_transaction(self, account_name: str, transaction_id: int, description: str, amount: float, transaction_type: TransactionType, category: Category, date: str, tags: set[str]) -> None: ...
 
 
     @abstractmethod
@@ -51,8 +52,8 @@ class FinanceStore(ABC):
     # =============================
     #. Concrete Methods
     # =============================
-    # direct implementet methods 
-    # independent of stores
+    #direct implementet methods 
+    #independent of stores
     
     def get_account(self, account_name: str) -> Account:
         return Account(account_name, self.get_transactions(account_name))
