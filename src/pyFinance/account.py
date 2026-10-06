@@ -17,6 +17,10 @@ class Account:
 
     name: str
     transactions: list[Transaction] = field(default_factory=list) 
+
+    def __post_init__(self):
+        if not self.name.strip():
+            raise ValueError("Account name must not be empty.")
     
 
     def add_transaction(self, transaction: Transaction) -> None:
