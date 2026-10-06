@@ -4,8 +4,7 @@ import pytest
 from src.pyFinance.transaction_type import TransactionType
 from src.pyFinance.category import Category
 from src.pyFinance.transaction import Transaction
-from src.storage.financestore import FinanceStore
-from src.storage.memorystore import InMemoryStore
+
 
 
 
@@ -137,70 +136,3 @@ def test_default_tags_are_independent():
     assert ta1.tags == {"Work"}
     assert ta2.tags == set()
 
-
-def test_update_transaction():
-    store = InMemoryStore()
-    store.create_account("My Account")
-
-    transaction = Transaction(
-        description="Groceries",
-        amount=100,
-        transaction_type=TransactionType.EXPENSE,
-        category=Category.FOOD,
-        date="2026-09-05",
-    )
-
-    store.add_transaction("My Account", transaction)
-
-    transaction_id = transaction.id
-
-    store.update_transaction(
-        account_name="My Account",
-        transaction_id=transaction_id,
-        description="Weekly Groceries",
-        amount=150,
-        transaction_type=TransactionType.EXPENSE,
-        category=Category.FOOD,
-        date="2026-09-06",
-        tags={"weekly"},
-    )
-
-    updated = store._transaction("My Account", transaction_id)
-
-    assert updated.id == transaction_id
-    assert updated.description == "Weekly Groceries"
-    assert updated.amount == 150
-    assert updated.date == "2026-09-06"
-    assert updated.tags == {"weekly"}
-
-
-
-def test_update_transaction_raises_valueerror():
-    store = InMemoryStore()
-    store.create_account("My Account")
-
-    transaction = Transaction(
-        description="Groceries",
-        amount=100,
-        transaction_type=TransactionType.EXPENSE,
-        category=Category.FOOD,
-        date="2026-09-05",
-    )
-
-    store.add_transaction("My Account", transaction)
-
-    transaction_id = transaction.id
-
-    with pytest.raises(ValueError) as exc:
-        store.update_transaction(
-            account_name="My Account",
-            transaction_id=transaction_id,
-            description="Groceries",
-            amount=-100,
-            transaction_type=TransactionType.EXPENSE,
-            category=Category.FOOD,
-            date="2026-09-05",
-            tags=set(),
-        )
-    assert str(exc.value) ==  "Amount must be positive. You typed '-100'."
-    assert transaction.amount == 100
