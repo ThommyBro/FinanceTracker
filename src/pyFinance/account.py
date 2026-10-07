@@ -74,17 +74,27 @@ class Account:
 
     # --- Summaries --- #
     def monthly_summary(self) -> dict[str, dict]:
-        month_summary = {f"{m:02d}": {"Income": 0.0, "Expenses": 0.0, "Balance": 0.0}
-                   for m in range(1,13)
-                   }
+        month_summary = {}
+        
         for ta in self.transactions:
-            month = ta.date.split("-")[1]
+            month = ta.date[:7]      # takes year and month
+
+            month_summary.setdefault(
+                month, {
+                    "Income": 0.0,
+                    "Expense": 0.0,
+                    "Balance": 0.0
+                }
+            )
+
             if ta.is_income:
                 month_summary[month]["Income"] += ta.amount
-            elif ta.is_expense:
-                month_summary[month]["Expenses"] += ta.amount
-            month_summary[month]["Balance"] = self.balance
 
+            elif ta.is_expense:
+                month_summary[month]["Expense"] += ta.amount
+
+            month_summary[month]["Balance"] += ta.signed_amount
+            
         return month_summary
 
 
