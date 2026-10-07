@@ -3,6 +3,7 @@ import json
 import csv
 from pathlib import Path
 
+
 from dataclasses import dataclass, field
 from .transaction_type import TransactionType
 from .category import Category
@@ -171,6 +172,35 @@ class Account:
 
         except (ValueError, TypeError) as exc:
             raise FinanceError(f"Cannot load JSON: {exc}") from exc
-  
+
+
+    # ========================================
+    # CSV Import
+    # ========================================
+    @classmethod
+    def load_from_csv(cls, file: str | Path, account_name: str) -> "Account":
+
+        transactions = []
+
+        with Path(file).open("r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                transaction = Transaction(
+                    description=row["description"],
+                    amount=float(row["amount"]),
+                    transaction_type=TransactionType(row["transaction_type"]),
+                    category=Category(row["category"]),
+                    date=row["date"],
+                    tags={
+                        tag.strip()
+                        for tag in row.get("tags", "").split(";")
+                        if tag.strip()
+                    }
+                )
+
+                transactions.append(transaction)
+
+        return cls(name=account_name,transactions=transactions)
+    
 
 
