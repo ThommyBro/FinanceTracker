@@ -1,86 +1,54 @@
-from src.pyFinance.account import Account
+
+import sys
+from PySide6.QtWidgets import QApplication
+
+from src.gui.main_window import MainWindow
+from src.storage.memorystore import InMemoryStore
 from src.pyFinance.transaction import Transaction
-from src.pyFinance.budget import Budget
 from src.pyFinance.transaction_type import TransactionType
 from src.pyFinance.category import Category
 
 
-def make_transaction(
-    description: str,
-    amount: float,
-    date: str,
-    transaction_type: TransactionType = TransactionType.EXPENSE,
-    category: Category = Category.OTHER,
-) -> Transaction:
-
-    return Transaction(
-        description=description,
-        amount=amount,
-        transaction_type=transaction_type,
-        category=category,
-        date=date,
-    )
 
 
 def main():
+    app = QApplication(sys.argv)
 
-    account = Account(name="My Account")
-    budget = Budget(Category.FOOD, 300.0, "2026-09")
+    store = InMemoryStore()
+    store.create_account("My Account")
+    store.create_account("Savings")
 
-    transactions = [
-        make_transaction(
-            "Salary",
-            3000,
-            "2026-09-01",
-            TransactionType.INCOME,
-            Category.SALARY,
-        ),
-        make_transaction(
-            "Rent",
-            900,
-            "2026-09-02",
-            category=Category.HOUSING,
-        ),
-        make_transaction(
-            "Groceries",
-            100,
-            "2026-09-05",
+    store.add_transaction(
+    "My Account",
+    Transaction(
+        description="Salary",
+        amount=3000.0,
+        transaction_type=TransactionType.INCOME,
+        category=Category.SALARY,
+        date="2026-10-01",
+        )
+    )
+
+    store.add_transaction(
+        "My Account",
+        Transaction(
+            description="Groceries",
+            amount=120.0,
+            transaction_type=TransactionType.EXPENSE,
             category=Category.FOOD,
-        ),
-        make_transaction(
-            "Restaurant",
-            100,
-            "2026-09-05",
-            category=Category.FOOD,
-        ),
-        make_transaction(
-            "New Bike",
-            500,
-            "2026-09-12",
-            category=Category.OTHER,
-        ),
-    ]
-
-    for transaction in transactions:
-        account.add_transaction(transaction)
-
-    print(f"Account: {account.name}")
-    print(f"Income: {account.income_total}")
-    print(f"Expenses: {account.expense_total}")
-    print(f"Balance: {account.balance}")
-    print(f"\nBudget for Food: {budget.monthly_limit}")
-    print(f"\nRemaining for Food: {budget.remaining(account)}")
-    print(f"\nIs Exceeded: {budget.is_exceeded(account)}")
-    print(f"\nUsage percentage: {budget.usage_percentage(account)}")
+            date="2026-10-03",
+        )
+    )
 
 
-    # print("\nDaily spending:")
-    # print(account.daily_spending("2026-09"))
 
-    # print("\nTop expenses:")
-    # for transaction in account.top_n_expenses():
-    #     print(f"{transaction.description}: {transaction.amount}")
+# =============================================
+#   Main Window
+# =============================================
+    window = MainWindow(store)
+    window.show()
 
-
+    app.exec()
+ 
 if __name__ == "__main__":
     main()
