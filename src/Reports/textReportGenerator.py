@@ -8,6 +8,10 @@ from src.pyFinance.budget import Budget
 
 class TextReportGenerator(ReportGenerator):
 
+    @property
+    def file_extension(self) -> str:
+        return ".txt"
+
     def generate_monthly_report(self, account: Account, month: str) -> str:
         """
         Uses Account functionality monthly_summary and filter_by_month.

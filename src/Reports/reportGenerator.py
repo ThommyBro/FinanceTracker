@@ -1,10 +1,14 @@
 from abc import ABC, abstractmethod
-from pyFinance.account import Account
-from pyFinance.budget_tracker import Tracker
+from src.pyFinance.account import Account
+from src.pyFinance.budget_tracker import Tracker
 
 
 class ReportGenerator(ABC):
     """Baseclass for CSV and TXT reports"""
+
+    @property
+    @abstractmethod
+    def file_extension(self) -> str: ...
 
     @abstractmethod
     def generate_monthly_report(self, account: Account, month: str) -> str: ...
