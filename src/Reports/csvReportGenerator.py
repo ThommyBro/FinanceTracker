@@ -7,6 +7,10 @@ from .reportGenerator import ReportGenerator
 
 class CsvReportGenerator(ReportGenerator):
 
+    @property
+    def file_extension(self) -> str:
+        return ".csv"
+
     def generate_monthly_report(self, account: Account, month: str) -> str:
         output = io.StringIO()
         writer = csv.writer(output)
