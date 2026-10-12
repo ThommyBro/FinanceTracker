@@ -33,6 +33,9 @@ class FinanceStore(ABC):
     @abstractmethod
     def get_transactions(self, account_name: str) -> list[Transaction]: ...
 
+    @abstractmethod
+    def get_transaction(self,account_name: str, transaction_id: int) -> Transaction: ...
+
 
     @abstractmethod
     def update_transaction(self, account_name: str, transaction_id: int, description: str, amount: float, transaction_type: TransactionType, category: Category, date: str, tags: set[str]) -> None: ...
