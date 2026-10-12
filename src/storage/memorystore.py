@@ -86,6 +86,15 @@ class InMemoryStore(FinanceStore):
         # return a copy via list
         return list(account.transactions)
 
+    def get_transaction(self, account_name: str, transaction_id: int) -> Transaction:
+        """public method for the gui"""
+        return self._transaction(account_name, transaction_id)
+
+    def delete_transaction(self, account_name: str, transaction_id: int):
+        account = self._account(account_name)
+        transaction = self._transaction(account_name, transaction_id)
+        account.transactions.remove(transaction)
+
 
     # ========================================================
     # Budgets
