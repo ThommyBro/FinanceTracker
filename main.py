@@ -7,14 +7,21 @@ from src.storage.memorystore import InMemoryStore
 from src.pyFinance.transaction import Transaction
 from src.pyFinance.transaction_type import TransactionType
 from src.pyFinance.category import Category
+from src.gui.style import APP_STYLE
 
 
 
 
 def main():
     app = QApplication(sys.argv)
+    app.setStyleSheet(APP_STYLE)
 
     store = InMemoryStore()
+
+
+    # ================
+    # Some Test Data for a non empty start
+    # ================
     store.create_account("My Account")
     store.create_account("Savings")
 
