@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.store = store
 
-        self.setWindowTitle("Finance Tracker")
+        self.setWindowTitle("Personal Finance Tracker")
         self.resize(1200, 741)
 
         central_widget = QWidget()
@@ -39,18 +39,46 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(20, 20, 20, 20)
         central_widget.setLayout(layout)
 
-        # Title in the main window
-        title = QLabel("Personal Finance Tracker")
-        layout.addWidget(title)
+        # ---------- Header ----------
 
-        account_label = QLabel("Account")
-        layout.addWidget(account_label)
+        header_layout = QHBoxLayout()
+        header_layout.setContentsMargins(0, 0, 0, 10)
 
+        # Left side
+        title_layout = QVBoxLayout()
+        title_layout.setSpacing(2)
 
-        # Account Choice
+        title_label = QLabel("Personal Finance Tracker")
+        title_label.setObjectName("appTitle")
+
+        subtitle_label = QLabel("Track your income, expenses and financial progress.")
+        subtitle_label.setObjectName("appSubtitle")
+
+        title_layout.addWidget(title_label)
+        title_layout.addWidget(subtitle_label)
+
+        # Right side
+        account_layout = QVBoxLayout()
+        account_layout.setSpacing(5)
+
+        account_label = QLabel("ACCOUNT")
+        account_label.setObjectName("accountTitle")
+
         self.account_box = QComboBox()
-        self.account_box.addItems(self.store.list_accounts())
-        layout.addWidget(self.account_box)
+        self.account_box.setMinimumWidth(180)
+
+        for account_name in self.store.list_accounts():
+            self.account_box.addItem(account_name)
+
+        account_layout.addWidget(account_label)
+        account_layout.addWidget(self.account_box)
+
+        # Combine both sides
+        header_layout.addLayout(title_layout)
+        header_layout.addStretch()
+        header_layout.addLayout(account_layout)
+
+        layout.addLayout(header_layout)
 
    
         # KPI Cards
@@ -65,15 +93,6 @@ class MainWindow(QMainWindow):
 
 
         layout.addLayout(kpi_layout)
-
-
-        # self.balance_label = QLabel("Balance: 0.00 €")
-        # self.income_label = QLabel("Income: 0.00 €")
-        # self.expense_label = QLabel("Expense: 0.00 €")
-        # # Add labels to layout
-        # layout.addWidget(self.balance_label)
-        # layout.addWidget(self.income_label)
-        # layout.addWidget(self.expense_label)
 
 
         # ======================================
