@@ -40,6 +40,7 @@ class TransactionDialog(QDialog):
         )
 
         self.category_input = QComboBox()
+        self.category_input.setMinimumWidth(180)
         self.category_input.addItems(
             [category.value for category in Category]
         )
