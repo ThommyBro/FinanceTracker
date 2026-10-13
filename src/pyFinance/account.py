@@ -99,9 +99,17 @@ class Account:
         return month_summary
 
 
-    def category_breakdown(self) -> dict[Category, float]:
+    def category_breakdown(self, month: str | None = None, expenses_only: bool = False) -> dict[Category, float]:
+        transactions = self.transactions 
+
+        if month is not None: 
+            transactions = self.filter_by_month(month)
+
+        if expenses_only:
+            transactions = [ta for ta in transactions if ta.is_expense]
+
         cat_summary = {}
-        for ta in self.transactions:
+        for ta in transactions:
             cat_summary.setdefault(ta.category, 0.0)
             cat_summary[ta.category] += ta.signed_amount
 
