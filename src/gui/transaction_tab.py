@@ -84,8 +84,10 @@ class TransactionsTab(QWidget):
         # Buttons for the main window
         button_layout = QHBoxLayout()
         self.add_button = QPushButton("Add Transaction")
+        self.add_button.setObjectName("primaryButton") # loads styling
         self.edit_button = QPushButton("Edit")
         self.delete_button = QPushButton("Delete")
+        self.delete_button.setObjectName("dangerButton")    # loads styling
         self.edit_button.setEnabled(False)      # disabeled 
         self.delete_button.setEnabled(False)    # disabeled 
         button_layout.addWidget(self.add_button)
@@ -104,6 +106,8 @@ class TransactionsTab(QWidget):
 
         # Table for transaction Details
         self.transaction_table = QTableWidget()
+        self.transaction_table.setAlternatingRowColors(True)
+        self.transaction_table.verticalHeader().setVisible(False)
         self.transaction_table.setColumnCount(len(TransactionColumn))    
         self.transaction_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows) # you can select complete rows
         self.transaction_table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)    #
