@@ -9,6 +9,31 @@ QWidget {
     font-size: 14px;
 }
 
+/* ---------- Header ---------- */
+
+QLabel#appTitle {
+    background-color: transparent;
+    color: #0f172a;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+
+QLabel#appSubtitle {
+    background-color: transparent;
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+QLabel#accountTitle {
+    background-color: transparent;
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
 /* ---------- Labels ---------- */
 
 QLabel {
@@ -82,7 +107,7 @@ QDoubleSpinBox {
     border: 1px solid #cbd5e1;
     border-radius: 7px;
 
-    padding: 6px 10px;
+    padding: 6px 10px ;
 }
 
 QComboBox:hover,
@@ -98,6 +123,8 @@ QDateEdit:focus,
 QDoubleSpinBox:focus {
     border: 1px solid #2563eb;
 }
+
+
 
 
 /* ---------- Tabs ---------- */
@@ -186,6 +213,25 @@ QLabel#kpiValue {
     color: #0f172a;;
     
     font-size: 24px;
+    font-weight: bold;
+}
+
+
+/* ---------- Chart Cards ---------- */
+
+QFrame#chartCard {
+    background-color: #ffffff;
+
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+}
+
+QLabel#chartCardTitle {
+    background-color: transparent;
+
+    color: #0f172a;
+
+    font-size: 16px;
     font-weight: bold;
 }
 """
